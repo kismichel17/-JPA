@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ProgramService {
     List<Program> getByUserId(Long userId);
+    void save(Program program);
 }

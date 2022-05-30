@@ -8,7 +8,7 @@ import java.util.List;
 public class Program {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name="user_id", nullable = false)
@@ -21,9 +21,11 @@ public class Program {
     @Column(name = "photo_url")
     private String photoURL;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "program_id")
-    private List<ProgramComposition> programCompositions;
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private List<ProgramComposition> programComposition;
+
+
 
     public Long getId() {
         return id;
@@ -41,12 +43,12 @@ public class Program {
         this.userId = userId;
     }
 
-    public List<ProgramComposition> getProgramCompositions() {
-        return programCompositions;
+    public List<ProgramComposition> getProgramComposition() {
+        return programComposition;
     }
 
-    public void setProgramCompositions(List<ProgramComposition> programCompositions) {
-        this.programCompositions = programCompositions;
+    public void setProgramComposition(List<ProgramComposition> programCompositions) {
+        this.programComposition = programCompositions;
     }
 
     public String getName() {

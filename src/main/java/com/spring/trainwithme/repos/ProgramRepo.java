@@ -8,4 +8,5 @@ import java.util.List;
 public interface ProgramRepo extends JpaRepository<Program, Long> {
 
     List<Program> findByUserId(Long userId);
+//    Program find
 }
