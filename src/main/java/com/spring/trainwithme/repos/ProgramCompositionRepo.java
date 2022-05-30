@@ -1,9 +1,9 @@
 package com.spring.trainwithme.repos;
 
 import com.spring.trainwithme.domain.ProgramComposition;
-import com.spring.trainwithme.domain.ProgramCompositionId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProgramCompositionRepo extends JpaRepository<ProgramComposition, ProgramCompositionId> {
-
+@Repository
+public interface ProgramCompositionRepo extends JpaRepository<ProgramComposition, Long> {
 }

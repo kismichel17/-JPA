@@ -1,5 +1,6 @@
 package com.spring.trainwithme.domain;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,47 +12,47 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+@Data
 @Entity
-@Table(name="usr")
+@Table(name = "usr")
 public class User implements UserDetails {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Email
-    @Column(nullable = false, unique = true)
-    @Size(min = 3)
     @NotBlank
+    @Size(min = 3)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
-    @Size(min = 1)
     @NotBlank
+    @Size(min = 1)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
-    @Size(min = 4)
     @NotBlank
+    @Size(min = 4)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Transient
     private String passwordConfirm;
 
-    private boolean active;
+    @Column(name = "is_active")
+    private boolean isActive;
 
+    @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private List<Program> programs;
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public User() {
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -75,70 +76,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isActive();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<Program> getPrograms() {
-        return programs;
-    }
-
-    public void setPrograms(List<Program> programs) {
-        this.programs = programs;
+        return isActive;
     }
 }

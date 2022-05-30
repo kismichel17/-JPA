@@ -13,9 +13,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/diary")
@@ -32,7 +38,6 @@ public class DiaryController {
 
     @Autowired
     private ExerciseRepo exerciseRepo;
-
 
     @GetMapping
     public String training(Model model) {
@@ -52,7 +57,7 @@ public class DiaryController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("username", auth.getName());
         Set<String> muscles = new LinkedHashSet<>();
-        for(Exercise exercise: exerciseRepo.findAll()){
+        for (Exercise exercise : exerciseRepo.findAll()) {
             muscles.add(exercise.getMuscles());
         }
         model.addAttribute("exercises", exerciseRepo.findAll());
@@ -69,7 +74,7 @@ public class DiaryController {
 
         program.setPhotoURL("/img/card-photo-1.png");
         program.setProgramComposition(Collections.singletonList(programComposition));
-        program.setUserId(userFromDb.getId());
+        program.setUser(userFromDb);
 //        program.setId((long) 5);
 
         programService.save(program);
@@ -80,4 +85,4 @@ public class DiaryController {
     }
 
 
-    }
+}
